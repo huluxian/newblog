@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class TagController {
     @Autowired
@@ -44,6 +44,70 @@ public class TagController {
     @GetMapping("/inputtag")
     public String inputtag(){
         return "admin/tags-input";
+    }
+
+    /*
+    *postman测接口的json
+    *
+    * */
+    @GetMapping("/alltag")
+    public List<Tag> findAllTags(){
+        System.out.println("获取所有的tag");
+        return tagService.getAllTags();
+    }
+
+    /*
+    *查
+    * postman测接口数据
+    * 根据id获得tag
+    *get：调用select操作
+    * */
+    @GetMapping("/tag")
+    public Tag findTagbyId(@RequestParam(value = "id",required = true)Integer tagid){
+
+        return tagService.getTagById(tagid);
+    }
+
+    /*查
+    * 根据name获得tag
+    * */
+    @GetMapping("/tagname")
+    public Tag findTagByName(@RequestParam(value = "name",required = true)String name){
+
+        return tagService.getTagByName(name);
+    }
+
+    /*删
+    * restful中的delete
+    *delete:调用delete操作
+    * */
+    @DeleteMapping("/tag")
+    public boolean deleteTagById(@RequestParam(value = "id")Integer id){
+        return tagService.deleteTag(id);
+
+    }
+    /*
+    *增
+    * restful中的post
+    * post:调用insert操作
+    *
+    * */
+    @PostMapping("/tag")
+    public boolean saveTag(@RequestBody Tag tag){
+        return tagService.saveTag(tag);
+    }
+
+
+    /*
+    * restful中的put
+    * put:调用update操作
+    *改
+    *
+    * */
+    @PutMapping("/tag")
+    public boolean updateTag(@RequestBody Tag tag){
+
+        return tagService.updateTag(tag);
     }
 
     /*----增加标签-----*/
